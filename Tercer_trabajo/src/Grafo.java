@@ -24,7 +24,8 @@ public class Grafo {
         boolean enc = false;
         boolean[] examinados = new boolean[Main.webs.obtenerNumWebs()];
 
-        while (!enc ) {// y algo más
+        while (!enc && !porExaminar.isEmpty()) {
+
             int elementoSacado = porExaminar.poll();
             if (examinados [elementoSacado] == false){
                 if (elementoSacado != w2){
@@ -34,7 +35,6 @@ public class Grafo {
                             porExaminar.add(web.obtenerId());
                         }
                     }
-                    // no se pone a true???? o no c
                     examinados [elementoSacado] = true;
                 }else{
                     enc = true;

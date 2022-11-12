@@ -12,6 +12,12 @@ public class HashWeb{
 
         return this.lista.get(x).obtenerNombre();
     }
+    public int word2web (String nom){
+        int i =0;
+        for ( i = 0; !lista.get(i).obtenerNombre().equals(nom); i++){
+        }
+        return i;
+    }
 
     public int obtenerNumWebs (){
         return this.lista.size();

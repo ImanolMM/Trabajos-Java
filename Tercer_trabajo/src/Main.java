@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main{
-    private static HashWeb webs;
+    public static HashWeb webs;
     private static HashListaWebRelacionadas webRelacionadas;
     private static HashPalabras palabrasMap;
 

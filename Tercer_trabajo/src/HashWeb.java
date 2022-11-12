@@ -13,8 +13,14 @@ public class HashWeb{
         return this.lista.get(x).obtenerNombre();
     }
     public int word2web (String nom){
-        int i =0;
-        for ( i = 0; !lista.get(i).obtenerNombre().equals(nom); i++){
+        int i =-1;
+        boolean enc = false;
+        while (!enc && i < lista.size()){
+            i++;
+            if (lista.get (i) != null && lista.get(i).obtenerNombre().equals(nom)){
+                enc = true;
+            }
+
         }
         return i;
     }

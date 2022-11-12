@@ -31,7 +31,7 @@ public class Main{
     public static void cargarPalabras (String nomClave) throws IOException {
         palabrasMap = new HashPalabras();
         String linea;
-        BufferedReader entrada = new BufferedReader(new FileReader(System.getProperty("user.dir") + nomClave));
+        BufferedReader entrada = new BufferedReader(new FileReader(System.getProperty("user.dir") + "//" +nomClave));
 
         while ((linea = entrada.readLine()) != null){ // loop de cargar palabras
             if (!linea.isBlank()){
@@ -43,7 +43,7 @@ public class Main{
     public static void cargarWebs (String nomWeb) throws IOException {
         webs = new HashWeb();
         String linea;
-        BufferedReader entrada = new BufferedReader(new FileReader(System.getProperty("user.dir") + nomWeb));
+        BufferedReader entrada = new BufferedReader(new FileReader(System.getProperty("user.dir") + "//" +nomWeb));
 
         while ((linea = entrada.readLine()) != null){ //loop de cargar webs
             try{
@@ -61,7 +61,7 @@ public class Main{
     public static void cargarWebRelacionadas (String nomRelaciones) throws IOException {
         webRelacionadas = new HashListaWebRelacionadas();
         String linea;
-        BufferedReader entrada = new BufferedReader(new FileReader(System.getProperty("user.dir") + nomRelaciones));
+        BufferedReader entrada = new BufferedReader(new FileReader(System.getProperty("user.dir") + "//" +nomRelaciones));
 
         while ((linea = entrada.readLine()) != null){ // loop de cargar las relaciones de webs
             String [] partes = linea.split(" ---> ");
@@ -124,7 +124,8 @@ public class Main{
        cargarArchivos("words.txt","index-2022-2023","pld-arcs-1-N-2022-2023");
     }
 
-    public static void main(String[] args){
-        prueba();
+    public static void main(String[] args) throws IOException {
+        Grafo grafo = new Grafo();
+        System.out.println(grafo.estanConectados("0-00.pl","40-24-sex.de"));
     }
 }

@@ -79,7 +79,7 @@ public class Grafo {
                         Web web = Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().devolverWebPorPos(i);
                         if (web != null) {
                             porExaminar.add(web.obtenerId());
-                            if (relaciones.get(web.obtenerId()) == null)
+                            if (relaciones.get(web.obtenerId()) == null && web.obtenerId() != w1)
                             relaciones.put(web.obtenerId(),elementoSacado);
                         }
                     }
@@ -92,12 +92,12 @@ public class Grafo {
         if (enc){
             camino.add (Main.webs.devolverWebPorId(elementoSacado).obtenerNombre());
             Integer i = elementoSacado;
-            while (i != null){
-                i = relaciones.get (i);
+            while (relaciones.get(i) != null){
                 camino.add (Main.webs.devolverWebPorId(relaciones.get (i)).obtenerNombre());
-                System.out.println(i);
+                i = relaciones.get (i);
             }
-            for (int ind = 0; ind < camino.size(); ind++){
+            int limite = camino.size();
+            for (int ind = 0; ind < limite; ind++){
                 conexiones.add(camino.pop());
             }
         }else{conexiones = null;}

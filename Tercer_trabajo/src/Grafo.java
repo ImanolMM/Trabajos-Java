@@ -1,6 +1,5 @@
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class Grafo {
 
@@ -13,6 +12,9 @@ public class Grafo {
         int w1 = Main.webs.word2web(a1);
         int w2 = Main.webs.word2web(a2);
         Queue<Integer> porExaminar = new LinkedList<Integer>();
+        boolean enc = false;
+        boolean[] examinados = new boolean[Main.webs.obtenerNumWebs()];
+        examinados [w1] = true;
 
         for (int i = 0; i < Main.webs.devolverWebPorId(w1).obtenerWAsociadas().obtenerNumWebs(); i++){
             Web web = Main.webs.devolverWebPorId(w1).obtenerWAsociadas().devolverWebPorPos(i);
@@ -21,8 +23,6 @@ public class Grafo {
 
             }
         }
-        boolean enc = false;
-        boolean[] examinados = new boolean[Main.webs.obtenerNumWebs()];
 
         while (!enc && !porExaminar.isEmpty()) {
 
@@ -43,4 +43,65 @@ public class Grafo {
         }
         return enc;
     }
+    public ArrayList <String> estanConectados2(String a1, String a2) throws IOException {
+        Main.cargarWebs("index-2022-2023.txt");
+        Main.cargarWebRelacionadas("pld-arcs-1-N-2022-2023.txt");
+        Main.cargarRelacionesWebs();
+
+
+        int w1 = Main.webs.word2web(a1);
+        int w2 = Main.webs.word2web(a2);
+        Queue<Integer> porExaminar = new LinkedList<Integer>();
+        HashMap<Integer,Integer> relaciones = new HashMap<Integer, Integer>();
+        ArrayList <String> conexiones = new ArrayList<String>();
+        Stack <String> camino = new Stack<String>();
+        boolean enc = false;
+        boolean[] examinados = new boolean[Main.webs.obtenerNumWebs()];
+        examinados [w1] = true;
+        relaciones.put(w1,null);
+
+        for (int i = 0; i < Main.webs.devolverWebPorId(w1).obtenerWAsociadas().obtenerNumWebs(); i++){
+            Web web = Main.webs.devolverWebPorId(w1).obtenerWAsociadas().devolverWebPorPos(i);
+            if (web != null) {
+                porExaminar.add(web.obtenerId());
+                relaciones.put(web.obtenerId(),w1);
+
+            }
+        }
+        int elementoSacado = 0;
+
+        while (!enc && !porExaminar.isEmpty()) {
+
+            elementoSacado = porExaminar.poll();
+            if (examinados [elementoSacado] == false){
+                if (elementoSacado != w2){
+                    for (int i = 0; i < Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().obtenerNumWebs(); i++){
+                        Web web = Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().devolverWebPorPos(i);
+                        if (web != null) {
+                            porExaminar.add(web.obtenerId());
+                            if (relaciones.get(web.obtenerId()) == null)
+                            relaciones.put(web.obtenerId(),elementoSacado);
+                        }
+                    }
+                    examinados [elementoSacado] = true;
+                }else{
+                    enc = true;
+                }
+            }
+        }
+        if (enc){
+            camino.add (Main.webs.devolverWebPorId(elementoSacado).obtenerNombre());
+            Integer i = elementoSacado;
+            while (i != null){
+                i = relaciones.get (i);
+                camino.add (Main.webs.devolverWebPorId(relaciones.get (i)).obtenerNombre());
+                System.out.println(i);
+            }
+            for (int ind = 0; ind < camino.size(); ind++){
+                conexiones.add(camino.pop());
+            }
+        }else{conexiones = null;}
+        return conexiones;
+    }
+
 }

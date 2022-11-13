@@ -126,6 +126,6 @@ public class Main{
 
     public static void main(String[] args) throws IOException {
         Grafo grafo = new Grafo();
-        System.out.println(grafo.estanConectados("0-00.pl","0-24-sex.de"));
+        System.out.println(grafo.estanConectados("0-00.pl","0-3-6.com"));
     }
 }

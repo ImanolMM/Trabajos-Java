@@ -20,6 +20,9 @@ public class Grafo {
             Web web = Main.webs.devolverWebPorId(w1).obtenerWAsociadas().devolverWebPorPos(i);
             if (web != null) {
                 porExaminar.add(web.obtenerId());
+                if (web.obtenerId()== w2){
+                    enc = true;
+                }
 
             }
         }

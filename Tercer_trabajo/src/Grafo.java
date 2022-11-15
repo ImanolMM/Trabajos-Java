@@ -3,9 +3,9 @@ import java.util.*;
 
 public class Grafo {
 
-    public boolean estanConectados(String a1, String a2) throws IOException {
+    public boolean estanConectados(String a1, String a2, String txtRelaciones) throws IOException {
         Main.cargarWebs("index-2022-2023.txt");
-        Main.cargarWebRelacionadas("pld-arcs-1-N-2022-2023.txt");
+        Main.cargarWebRelacionadas(txtRelaciones);
         Main.cargarRelacionesWebs();
 
 
@@ -46,9 +46,9 @@ public class Grafo {
         }
         return enc;
     }
-    public ArrayList <String> estanConectados2(String a1, String a2) throws IOException {
+    public ArrayList <String> estanConectados2(String a1, String a2, String txtRelaciones) throws IOException {
         Main.cargarWebs("index-2022-2023.txt");
-        Main.cargarWebRelacionadas("pld-arcs-1-N-2022-2023.txt");
+        Main.cargarWebRelacionadas(txtRelaciones);
         Main.cargarRelacionesWebs();
 
 
@@ -67,8 +67,12 @@ public class Grafo {
             Web web = Main.webs.devolverWebPorId(w1).obtenerWAsociadas().devolverWebPorPos(i);
             if (web != null) {
                 porExaminar.add(web.obtenerId());
-                relaciones.put(web.obtenerId(),w1);
-
+                if (web.obtenerId() != w1){
+                    relaciones.put(web.obtenerId(),w1);
+                }
+                if (web.obtenerId()== w2){
+                    enc = true;
+                }
             }
         }
         int elementoSacado = 0;
@@ -103,7 +107,7 @@ public class Grafo {
             for (int ind = 0; ind < limite; ind++){
                 conexiones.add(camino.pop());
             }
-        }else{conexiones = null;}
+        }
         return conexiones;
     }
 }

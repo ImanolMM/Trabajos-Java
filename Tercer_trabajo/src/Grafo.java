@@ -16,32 +16,21 @@ public class Grafo {
         boolean[] examinados = new boolean[Main.webs.obtenerNumWebs()];
         examinados [w1] = true;
 
-        for (int i = 0; i < Main.webs.devolverWebPorId(w1).obtenerWAsociadas().obtenerNumWebs(); i++){
-            Web web = Main.webs.devolverWebPorId(w1).obtenerWAsociadas().devolverWebPorPos(i);
-            if (web != null) {
-                porExaminar.add(web.obtenerId());
-                if (web.obtenerId()== w2){
-                    enc = true;
-                }
-
-            }
-        }
+        porExaminar.add (w1);
 
         while (!enc && !porExaminar.isEmpty()) {
 
             int elementoSacado = porExaminar.poll();
-            if (examinados [elementoSacado] == false){
-                if (elementoSacado != w2){
-                    for (int i = 0; i < Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().obtenerNumWebs(); i++){
-                        Web web = Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().devolverWebPorPos(i);
-                        if (web != null) {
-                            porExaminar.add(web.obtenerId());
-                        }
+            if (elementoSacado != w2) {
+                examinados[elementoSacado] = true;
+                for (int i = 0; i < Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().obtenerNumWebs(); i++) {
+                    Web web = Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().devolverWebPorPos(i);
+                    if (web != null && examinados [web.obtenerId()]==false) {
+                        porExaminar.add(web.obtenerId());
                     }
-                    examinados [elementoSacado] = true;
-                }else{
-                    enc = true;
                 }
+            }else{
+                enc = true;
             }
         }
         return enc;
@@ -60,42 +49,28 @@ public class Grafo {
         Stack <String> camino = new Stack<String>();
         boolean enc = false;
         boolean[] examinados = new boolean[Main.webs.obtenerNumWebs()];
-        examinados [w1] = true;
         relaciones.put(w1,null);
 
-        for (int i = 0; i < Main.webs.devolverWebPorId(w1).obtenerWAsociadas().obtenerNumWebs(); i++){
-            Web web = Main.webs.devolverWebPorId(w1).obtenerWAsociadas().devolverWebPorPos(i);
-            if (web != null) {
-                porExaminar.add(web.obtenerId());
-                if (web.obtenerId() != w1){
-                    relaciones.put(web.obtenerId(),w1);
-                }
-                if (web.obtenerId()== w2){
-                    enc = true;
-                }
-            }
-        }
+        porExaminar.add (w1);
         int elementoSacado = 0;
-
         while (!enc && !porExaminar.isEmpty()) {
 
             elementoSacado = porExaminar.poll();
-            if (examinados [elementoSacado] == false){
-                if (elementoSacado != w2){
-                    for (int i = 0; i < Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().obtenerNumWebs(); i++){
-                        Web web = Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().devolverWebPorPos(i);
-                        if (web != null) {
-                            porExaminar.add(web.obtenerId());
-                            if (relaciones.get(web.obtenerId()) == null && web.obtenerId() != w1)
+            if (elementoSacado != w2){
+                examinados [elementoSacado] = true;
+                for (int i = 0; i < Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().obtenerNumWebs(); i++){
+                    Web web = Main.webs.devolverWebPorId(elementoSacado).obtenerWAsociadas().devolverWebPorPos(i);
+                    if (web != null && examinados[Main.webs.devolverWebPorId(web.obtenerId()).obtenerId()] == false) {
+                        porExaminar.add(web.obtenerId());
+                        if (relaciones.get(web.obtenerId()) == null && web.obtenerId() != w1) {
                             relaciones.put(web.obtenerId(),elementoSacado);
                         }
                     }
-                    examinados [elementoSacado] = true;
+                }
                 }else{
                     enc = true;
                 }
             }
-        }
         if (enc){
             camino.add (Main.webs.devolverWebPorId(elementoSacado).obtenerNombre());
             Integer i = elementoSacado;

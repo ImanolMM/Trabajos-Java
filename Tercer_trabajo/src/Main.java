@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Main{
     public static HashWeb webs;
@@ -119,14 +120,14 @@ public class Main{
         return palabrasMap;
     }
 
-
     public static void prueba(){
        cargarArchivos("words.txt","index-2022-2023","pld-arcs-1-N-2022-2023");
     }
 
     public static void main(String[] args) throws IOException {
+
         Grafo grafo = new Grafo();
-        ArrayList <String> arr = grafo.estanConectados2("0-00.pl","0-3-6.com", "pld-arcs-1-N-2022-2023");
+        ArrayList <String> arr = grafo.estanConectados2("0-00.pl","0-3-6.com", "pld-arcs-1-N-2022-2023.txt");
         for (int i = 0; i < arr.size(); i++){
             System.out.println(arr.get (i));
         }

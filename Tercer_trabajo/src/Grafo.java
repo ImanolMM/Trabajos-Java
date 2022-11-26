@@ -4,7 +4,7 @@ import java.util.*;
 public class Grafo {
 
     public boolean estanConectados(String a1, String a2, String txtRelaciones) throws IOException {
-        Main.cargarWebs("index-2022-2023.txt");
+        Main.cargarWebs("index-2022-2023");
         Main.cargarWebRelacionadas(txtRelaciones);
         Main.cargarRelacionesWebs();
 
@@ -36,7 +36,7 @@ public class Grafo {
         return enc;
     }
     public ArrayList <String> estanConectados2(String a1, String a2, String txtRelaciones) throws IOException {
-        Main.cargarWebs("index-2022-2023.txt");
+        Main.cargarWebs("index-2022-2023");
         Main.cargarWebRelacionadas(txtRelaciones);
         Main.cargarRelacionesWebs();
 

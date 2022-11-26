@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.SimpleTimeZone;
 
 import static org.junit.Assert.*;
 
@@ -34,6 +35,8 @@ public class GrafoTest {
         assertTrue(g.estanConectados("0-00.pl", "0-24.ro", "relacionesTest4.txt"));
         // relaciones que hacen ciclos pero no están conectados
         assertFalse(g.estanConectados("0-00.pl", "0-24.ro", "relacionesTest5.txt"));
+        //  archivo entero
+        assertTrue(g.estanConectados("0-24.ro","realtech.com","relacionesTest6"));
 
     }
 
@@ -62,5 +65,21 @@ public class GrafoTest {
         arr.add ("0-24-sex.de");
         arr.add ("0-24.ro");
         assertEquals(arr,camino);
+
+        camino =g.estanConectados2("0-24.ro", "realtech.com", "relacionesTest6");
+        arr = new ArrayList<>();
+        arr.add ("0-24.ro");
+        arr.add ("poker-ca-la-aparate.ro");
+        arr.add ("freecsstemplates.org");
+        arr.add ("famfamfam.com");
+        arr.add ("playtime-books.com");
+        arr.add ("videodoktor.de");
+        arr.add ("digiscan.de");
+        arr.add ("frankfurt.de");
+        arr.add ("tupperware.de");
+        arr.add ("tupperware.fr");
+        arr.add ("dunkel.de");
+        arr.add ("realtech.com");
+        assertEquals(arr, camino);
     }
 }

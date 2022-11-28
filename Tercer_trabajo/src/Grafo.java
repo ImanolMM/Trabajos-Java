@@ -40,7 +40,6 @@ public class Grafo {
         Main.cargarWebRelacionadas(txtRelaciones);
         Main.cargarRelacionesWebs();
 
-
         int w1 = Main.webs.word2web(a1);
         int w2 = Main.webs.word2web(a2);
         Queue<Integer> porExaminar = new LinkedList<Integer>();

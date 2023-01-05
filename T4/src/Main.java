@@ -125,6 +125,6 @@ public class Main{
 
     public static void main(String[] args) throws IOException {
         PageRank rangos = new PageRank();
-        System.out.println(rangos.pageRank("pld-arcs-1-N-2022-2023.txt").get("0-00.pl"));
+        System.out.println(rangos.pageRank("prueba2").get("0-00.pl"));
     }
 }

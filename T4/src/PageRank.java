@@ -2,65 +2,58 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class PageRank {
+
     public HashMap<String, Double> pageRank(String txtRelaciones) throws IOException {
-        HashMap<String, Double> hashMap = new HashMap<String, Double>();
-        Main.cargarWebs("index-2022-2023");
+        HashMap<String, Double> ant = new HashMap<String, Double>();
+        HashMap<String, Double> nuevo = new HashMap<String, Double>();
+        Main.cargarWebs("prueba");
         Main.cargarWebRelacionadas(txtRelaciones);
         Main.cargarRelacionesWebs();
-        for (int asd = 0; asd < 6; asd++) {
-            HashMap<String, Double> rangos = new HashMap<String, Double>();
-            int numWebs = Main.webs.obtenerNumWebs();
-            if (hashMap.get(Main.webs.devolverWebPorId(1).obtenerNombre()) == null) {
-                for (int i = 0; i < numWebs; i++) {
-                    int numWebsRelacionadas = Main.webs.devolverWebPorId(i).obtenerWAsociadas().obtenerNumWebs();
-                    for (int ind = 0; ind < numWebsRelacionadas; ind++) {
-                        Web web = Main.webs.devolverWebPorId(i).obtenerWAsociadas().devolverWebPorPos(ind);
-                        String nomWeb = web.obtenerNombre();
-                        if (hashMap.get(web.obtenerNombre()) != null) {
-                            Double valor = hashMap.get(web.obtenerNombre()) + ((1.0 / numWebs) / numWebsRelacionadas);
-                            hashMap.put(nomWeb, valor);
-                        } else {
-                            Double valor = ((1.0 / numWebs) / numWebsRelacionadas);
-                            hashMap.put(nomWeb, valor);
-                        }
-                    }
+        boolean salir = false;
+        int numWebs = Main.webs.obtenerNumWebs();
+        Double valorDefault = 1.0 / numWebs;
+        for (int i = 0; i< Main.webs.obtenerNumWebs(); i++){
+            ant.put(Main.webs.devolverWebPorId(i).obtenerNombre(), valorDefault);
+        }
+        while (!salir) {
+            for (int i = 0; i < numWebs; i++) {
+                int numWebsRelacionadas = Main.webs.devolverWebPorId(i).obtenerWAsociadas().obtenerNumWebs();
 
-                }
-                for (int i = 0; i < numWebs; i++) {
-                    Web web = Main.webs.devolverWebPorId(i);
-                    String nomWeb = web.obtenerNombre();
-                    if (hashMap.get(web.obtenerNombre()) != null) {
-                        Double valor = (1 - 0.85) / numWebs + 0.85 * hashMap.get(web.obtenerNombre());
-                        hashMap.put(nomWeb, valor);
-                    }else{
-                        Double valor = (1 - 0.85) / numWebs;
-                        hashMap.put(nomWeb, valor);
-                    }
-                }
-            } else {
-                for (int i = 0; i < numWebs; i++) {
-                    int numWebsRelacionadas = Main.webs.devolverWebPorId(i).obtenerWAsociadas().obtenerNumWebs();
-                    if (numWebsRelacionadas == 0){
-                        hashMap.put(Main.webs.devolverWebPorId(i).obtenerNombre(), 0.0);
-                    }else {
-                        for (int ind = 0; ind < numWebsRelacionadas; ind++) {
-                            Web webI = Main.webs.devolverWebPorId(i);
-                            Web webInd = webI.obtenerWAsociadas().devolverWebPorPos(ind);
-                            String nomWeb = webInd.obtenerNombre();
-                            Double valor = hashMap.get(webInd.obtenerNombre()) + hashMap.get(webI.obtenerNombre()) / numWebsRelacionadas;
-                            hashMap.put(nomWeb, valor);
-                            hashMap.put(webI.obtenerNombre(), 0.0);
+                if (numWebsRelacionadas > 0){
+                    Web webI = Main.webs.devolverWebPorId(i);
+                    Double valorARepartir = ant.get(webI.obtenerNombre())/numWebsRelacionadas;
+                    for (int ind = 0; ind < numWebsRelacionadas; ind++) {
+                        Web webInd = webI.obtenerWAsociadas().devolverWebPorPos(ind);
+                        String nomWeb = webInd.obtenerNombre();
+                        if (nuevo.get(webInd.obtenerNombre()) != null){
+                            Double valor = nuevo.get(webInd.obtenerNombre()) + valorARepartir;
+                            nuevo.put(nomWeb, valor);
+                        }else{
+                            nuevo.put(nomWeb, valorARepartir);
                         }
-                    }
-                }
-                for (int i = 0; i < numWebs; i++) {
-                    Web web = Main.webs.devolverWebPorId(i);
-                    String nomWeb = web.obtenerNombre();
-                    Double valor = (1 - 0.85) / numWebs + 0.85 * hashMap.get(web.obtenerNombre());
-                    hashMap.put(nomWeb, valor);
+                   }
                 }
             }
+            salir = true;
+            for (int ind = 0; ind < numWebs; ind++){
+                String web = Main.webs.devolverWebPorId(ind).obtenerNombre();
+                if (nuevo.get(web)!= null){
+                    Double valor = nuevo.get(web)* 0.85 + (1-0.85)/numWebs;
+                    nuevo.put(web, valor);
+                }else{
+                    nuevo.put(web, (1-0.85)/numWebs);
+                }
+                Double resta = ant.get(web) - nuevo.get(web);
+                if (resta > 0.00000001){
+                    salir = false;
+                    System.out.println("web1:  " +ant.get(web));
+                    System.out.println("web2:  " +nuevo.get(web));
+
+                }
+            }
+            ant = nuevo;
+            nuevo = new HashMap<String, Double>();
         }
-        return hashMap;
+        return ant;
     }
 }
